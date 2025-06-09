@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Вход и регистрация - Продажа страйкбольного оборудования</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #2c1a4a;
+        color: #e6d9f7;
+        line-height: 1.6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+    .container {
+        background-color: #4a2c8c;
+        padding: 30px 40px;
+        border-radius: 15px;
+        box-shadow: 0 0 25px #b39ddb;
+        width: 400px;
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-weight: 700;
+        font-size: 28px;
+        color: #f3eaff;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+    label {
+        margin-bottom: 8px;
+        font-weight: 600;
+        font-size: 16px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        border: none;
+        font-size: 16px;
+    }
+    input[type="submit"] {
+        background-color: #b39ddb;
+        color: #2c1a4a;
+        font-weight: 700;
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 18px;
+        transition: background-color 0.3s ease;
+    }
+    input[type="submit"]:hover {
+        background-color: #d1c4e9;
+    }
+    .toggle-link {
+        margin-top: 15px;
+        text-align: center;
+        color: #b39ddb;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    .toggle-link:hover {
+        color: #d1c4e9;
+    }
+    .hidden {
+        display: none;
+    }
+    .message {
+        text-align: center;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+    .error {
+        color: #ff6b6b;
+    }
+    .success {
+        color: #8bc34a;
+    }
+    header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: #4a2c8c;
+        padding: 15px 30px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        z-index: 1000;
+        text-align: center;
+    }
+    header a {
+        color: #b39ddb;
+        font-weight: 700;
+        font-size: 18px;
+        text-decoration: none;
+    }
+    header a:hover {
+        color: #d1c4e9;
+    }
+    main {
+        margin-top: 80px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+</style>
+</head>
+<body>
+<header>
+    <a href="index.html">← На главную</a>
+    <button id="profile-btn" aria-label="Профиль" style="background-color:#b39ddb; border:none; padding:10px 18px; border-radius:10px; cursor:pointer; font-weight:700; font-size:16px; color:#2c1a4a; margin-left: 15px; transition: background-color 0.3s ease;" onclick="location.href='auth.html'">Профиль</button>
+</header>
+<main>
+    <div class="container">
+        <h1 id="form-title">Вход</h1>
+        <div id="message" class="message"></div>
+        <form id="login-form">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" name="email" required />
+            <label for="login-password">Пароль</label>
+            <input type="password" id="login-password" name="password" required minlength="6" />
+            <input type="submit" value="Войти" />
+        </form>
+        <form id="register-form" class="hidden">
+            <label for="register-username">Имя пользователя</label>
+            <input type="text" id="register-username" name="username" required />
+            <label for="register-email">Email</label>
+            <input type="email" id="register-email" name="email" required />
+            <label for="register-password">Пароль</label>
+            <input type="password" id="register-password" name="password" required minlength="6" />
+            <input type="submit" value="Зарегистрироваться" />
+        </form>
+        <div class="toggle-link" id="toggle-link">Нет аккаунта? Зарегистрируйтесь</div>
+    </div>
+</main>
+<script>
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const toggleLink = document.getElementById('toggle-link');
+    const formTitle = document.getElementById('form-title');
+    const messageDiv = document.getElementById('message');
+
+    toggleLink.addEventListener('click', () => {
+        if (loginForm.classList.contains('hidden')) {
+            loginForm.classList.remove('hidden');
+            registerForm.classList.add('hidden');
+            formTitle.textContent = 'Вход';
+            toggleLink.textContent = 'Нет аккаунта? Зарегистрируйтесь';
+            messageDiv.textContent = '';
+        } else {
+            loginForm.classList.add('hidden');
+            registerForm.classList.remove('hidden');
+            formTitle.textContent = 'Регистрация';
+            toggleLink.textContent = 'Уже есть аккаунт? Войдите';
+            messageDiv.textContent = '';
+        }
+    });
+
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = loginForm.email.value.trim();
+        const password = loginForm.password.value;
+
+        if (!email || password.length < 6) {
+            messageDiv.textContent = 'Пожалуйста, введите корректные данные.';
+            messageDiv.className = 'message error';
+            return;
+        }
+
+        try {
+            const response = await fetch('login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: email, password: password })
+            });
+            const result = await response.json();
+            if (result.success) {
+                messageDiv.textContent = `Добро пожаловать, ${result.user.username}!`;
+                messageDiv.className = 'message success';
+                // Redirect to profile page
+                window.location.href = 'profil.html';
+            } else {
+                messageDiv.textContent = result.message || 'Ошибка входа';
+                messageDiv.className = 'message error';
+            }
+        } catch (error) {
+            messageDiv.textContent = 'Ошибка сервера';
+            messageDiv.className = 'message error';
+        }
+    });
+
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = registerForm.username.value.trim();
+        const email = registerForm.email.value.trim();
+        const password = registerForm.password.value;
+
+        if (!username || !email || password.length < 6) {
+            messageDiv.textContent = 'Пожалуйста, заполните все поля корректно.';
+            messageDiv.className = 'message error';
+            return;
+        }
+
+        try {
+            const response = await fetch('register.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: username, email: email, password: password })
+            });
+            const result = await response.json();
+            if (result.success) {
+                messageDiv.textContent = `Спасибо за регистрацию, ${username}! Теперь вы можете войти.`;
+                messageDiv.className = 'message success';
+                registerForm.reset();
+                toggleLink.click();
+            } else {
+                messageDiv.textContent = result.message || 'Ошибка регистрации';
+                messageDiv.className = 'message error';
+            }
+        } catch (error) {
+            messageDiv.textContent = 'Ошибка сервера';
+            messageDiv.className = 'message error';
+        }
+    });
+</script>
+</body>
+</html>

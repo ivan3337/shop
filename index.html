@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Главная - Продажа страйкбольного оборудования</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: url('0.png') no-repeat center center fixed;
+        background-size: cover;
+        color: #e6d9f7;
+        line-height: 1.6;
+    }
+    a {
+        color: #b39ddb;
+        text-decoration: none;
+    }
+    a:hover {
+        color: #9575cd;
+        text-decoration: underline;
+    }
+    header {
+        background-color: #4a2c8c;
+        padding: 15px 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    }
+    header h1 {
+        margin: 0;
+        font-size: 26px;
+        color: #f3eaff;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+    nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 25px;
+    }
+    nav ul li {
+        font-weight: 600;
+        font-size: 16px;
+    }
+    nav ul li a {
+        padding: 8px 12px;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+    }
+    nav ul li a:hover {
+        background-color: #b39ddb;
+        color: #2c1a4a;
+    }
+    main {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+    section {
+        margin-bottom: 40px;
+    }
+    h2 {
+        font-size: 24px;
+        border-bottom: 2px solid #b39ddb;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        font-weight: 700;
+    }
+    p {
+        font-size: 16px;
+        color: #d1c4e9;
+    }
+    ul.brands {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+    ul.brands li {
+        background-color: #5a3dbd;
+        padding: 10px 15px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px #b39ddb;
+        font-weight: 600;
+        font-size: 16px;
+        color: #f3eaff;
+    }
+    address {
+        font-style: normal;
+        font-size: 16px;
+        color: #d1c4e9;
+        background-color: #4a2c8c;
+        padding: 15px 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px #b39ddb;
+        max-width: 400px;
+    }
+    footer {
+        background-color: #4a2c8c;
+        color: #e6d9f7;
+        text-align: center;
+        padding: 20px 30px;
+        margin-top: 50px;
+        border-top: 2px solid #b39ddb;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    /* Slider styles */
+    .slider {
+        width: 900px;
+        height: 550px;
+        position: relative;
+        margin: 40px auto; /* Center horizontally */
+        overflow: hidden;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(179, 157, 219, 0.7);
+        background-color: #3a2673;
+    }
+    .slides {
+        width: 300%;
+        height: 100%;
+        display: flex;
+        transition: transform 0.6s ease-in-out;
+    }
+    .slide {
+<thinking>
+The user indicates that the images in the slider are still not sized correctly despite the CSS fix applied. This means the current CSS changes were insufficient to make the images fit exactly the slider size.
+
+I will review the slider CSS and HTML structure again to identify potential issues.
+
+The slider container is fixed at 900x550 px. The .slides container is width: 300% (to hold 3 slides side by side), height: 100%, display: flex.
+
+Each .slide is width: 100%, height: 100%, flex-shrink: 0, display: flex, justify-content: center, align-items: center.
+
+The images inside .slide have width: 100%, height: 100%, object-fit: cover, border-radius: 15px.
+
+Potential issues:
+- The .slides container width: 300% might cause overflow or scaling issues.
+- The .slide width: 100% might be 100% of .slides, which is 300% of slider width, so the slides might be too wide.
+- The images might be stretched or not fitting because of flexbox behavior.
+
+I will try to explicitly set the .slide width to be equal to the slider width (900px) instead of 100% (which is relative to .slides width).
+
+Also, I will ensure the .slides container width is 3 times the slider width (2700px).
+
+This explicit pixel sizing might fix the sizing issues.
+
+I will edit the CSS accordingly:
+
+- .slides width: 2700px (3 * 900px)
+- .slide width: 900px
+- Keep height: 550px for both .slides and .slide
+
+This should make each slide exactly the slider size.
+
+I will proceed with this CSS update.
+</thinking>
+
+<edit_file>
+<path>index.html</path>
+<content>
+<<<<<<< SEARCH
+    .slides {
+        width: 300%;
+        height: 100%;
+        display: flex;
+        transition: transform 0.6s ease-in-out;
+    }
+    .slide {
+        width: 100%;
+        height: 100%;
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .slides {
+        width: 300%;
+        height: 100%;
+        display: flex;
+        transition: transform 0.6s ease-in-out;
+    }
+    .slide {
+        width: 100%;
+        height: 100%;
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 15px;
+        display: block;
+        box-sizing: border-box;
+    }
+
+    /* Hide radio buttons */
+    input[type="radio"] {
+        display: none;
+    }
+
+    /* Manual navigation buttons */
+    .navigation-manual {
+        position: absolute;
+        width: 100%;
+        bottom: 15px;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        z-index: 10;
+    }
+    .manual-btn {
+        border: 2px solid #b39ddb;
+        padding: 5px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        background-color: transparent;
+        width: 15px;
+        height: 15px;
+    }
+    .manual-btn:hover {
+        background-color: #b39ddb;
+    }
+
+    /* Automatic navigation buttons (hidden) */
+    .navigation-auto {
+        display: none;
+    }
+
+    /* Slide position based on radio buttons */
+    #radio1:checked ~ .slides {
+        transform: translateX(0%);
+    }
+    #radio2:checked ~ .slides {
+        transform: translateX(-100%);
+    }
+    #radio3:checked ~ .slides {
+        transform: translateX(-200%);
+    }
+</style>
+</head>
+<body>
+<header>
+    <h1>Продажа страйкбольного оборудования</h1>
+    <nav>
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="web.html">Каталог</a></li>
+            <li><a href="auth.html">Вход / Регистрация</a></li>
+        </ul>
+    </nav>
+    <button id="profile-btn" aria-label="Профиль" style="background-color:#b39ddb; border:none; padding:10px 18px; border-radius:10px; cursor:pointer; font-weight:700; font-size:16px; color:#2c1a4a; margin-left: 15px; transition: background-color 0.3s ease;" onclick="location.href='auth.html'">Профиль</button>
+</header>
+
+<!-- Slider Start -->
+<div class="slider">
+    <input type="radio" name="radio-btn" id="radio1" checked>
+    <input type="radio" name="radio-btn" id="radio2">
+    <input type="radio" name="radio-btn" id="radio3">
+
+    <div class="slides">
+        <div class="slide first">
+            <img src="123.jpg" alt="Slide 1" />
+        </div>
+        <div class="slide">
+            <img src="1234.jpg" alt="Slide 2" />
+        </div>  
+        <div class="slide">
+            <img src="12345.png" alt="Slide 3" />
+        </div>
+    </div>
+
+    <div class="navigation-auto">
+        <div class="auto-btn1"></div>
+        <div class="auto-btn2"></div>
+        <div class="auto-btn3"></div>
+    </div>
+
+    <div class="navigation-manual">
+        <label for="radio1" class="manual-btn"></label>
+        <label for="radio2" class="manual-btn"></label>
+        <label for="radio3" class="manual-btn"></label>
+    </div>
+</div>
+<!-- Slider End -->
+
+<main>
+    <section>
+        <img src="9.jpg" alt="Company Image" style="width:100%; border-radius: 12px; margin-bottom: 20px;"/> 
+        <h2>О нашей компании</h2>
+        <p>Мы — ведущий поставщик страйкбольного оборудования в России. Наша миссия — предоставить качественные и надежные товары для страйкбольных энтузиастов всех уровней. Мы сотрудничаем с лучшими брендами и предлагаем широкий ассортимент продукции, чтобы каждый мог найти то, что ему нужно.</p>
+    </section>
+    <section>
+        <h2>Сотрудничаем</h2>
+        <ul class="brands">
+             <img src="11.png" alt="11"/>
+            <img src="12.png" alt="11" />
+            <img src="13.png" alt="11" />
+            <img src="14.png" alt="11" />
+            <img src="15.png" alt="11" />
+            <img src="16.png" alt="11" />
+            <img src="17.png" alt="11" />
+            <img src="18.png" alt="11" />
+            <img src="19.png" alt="11" />
+            <img src="20.png" alt="11"/>
+        </ul>
+    </section>
+    <section>
+        <h2>Адрес магазина</h2>
+        <address>
+            г. Москва, ул. Примерная, д. 10<br />
+            Телефон: +7 (495) 123-45-67<br />
+            Email: info@straykbolshop.ru
+        </address>
+    </section>
+</main>
+<footer>
+    &copy; 2024 Продажа страйкбольного оборудования
+</footer>
+</body>
+</html>

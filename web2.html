@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Каталог страйкбольного оборудования - Страница 2</title>
+<style>
+    /* Reset and base */
+    * {
+        box-sizing: border-box;
+    }
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #2c1a4a;
+        color: #e6d9f7;
+        line-height: 1.6;
+    }
+    a {
+        color: #b39ddb;
+        text-decoration: none;
+    }
+    a:hover {
+        color: #9575cd;
+        text-decoration: underline;
+    }
+    header {
+        background-color: #4a2c8c;
+        padding: 15px 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    }
+    header h1 {
+        margin: 0;
+        font-size: 26px;
+        color: #f3eaff;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+    nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 25px;
+    }
+    nav ul li {
+        font-weight: 600;
+        font-size: 16px;
+    }
+    nav ul li a {
+        padding: 8px 12px;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+    }
+    nav ul li a:hover {
+        background-color: #b39ddb;
+        color: #2c1a4a;
+    }
+    main {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 0 20px;
+        display: flex;
+        gap: 25px;
+    }
+    /* Sidebar filters */
+    aside {
+        width: 260px;
+        background-color: #4a2c8c;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px #b39ddb;
+        color: #e6d9f7;
+        height: fit-content;
+    }
+    aside h2 {
+        margin-top: 0;
+        font-size: 22px;
+        border-bottom: 2px solid #b39ddb;
+        padding-bottom: 10px;
+        font-weight: 700;
+    }
+    aside label {
+        display: block;
+        margin: 15px 0 8px;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+    }
+    aside input[type="checkbox"] {
+        margin-right: 10px;
+        cursor: pointer;
+        transform: scale(1.2);
+        vertical-align: middle;
+    }
+    /* Product grid */
+    section.products {
+        flex-grow: 1;
+        display: grid;
+        grid-template-columns: repeat(auto-fill,minmax(260px,1fr));
+        gap: 25px;
+    }
+    .product-card {
+        background-color: #5a3dbd;
+        border-radius: 14px;
+        box-shadow: 0 0 20px #b39ddb;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        color: #f3eaff;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 0 30px #d1c4e9;
+    }
+    .product-card img {
+        width: 100%;
+        height: 190px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-bottom: 15px;
+        box-shadow: 0 0 15px #9575cd;
+    }
+    .product-card h3 {
+        margin: 0 0 12px 0;
+        font-size: 20px;
+        font-weight: 700;
+    }
+    .product-card p {
+        flex-grow: 1;
+        font-size: 15px;
+        margin-bottom: 15px;
+        color: #d1d9e9;
+    }
+    .price {
+        font-weight: 700;
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: #e6d9f7;
+    }
+    .add-to-cart-btn {
+        background-color: #b39ddb;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        color: #2c1a4a;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 16px;
+    }
+    .add-to-cart-btn:hover {
+        background-color: #d1c4e9;
+    }
+    /* Cart sidebar */
+    #cart-sidebar {
+        position: fixed;
+        right: 0;
+        top: 0;
+        width: 340px;
+        height: 100vh;
+        background-color: #4a2c8c;
+        box-shadow: -3px 0 15px rgba(0,0,0,0.8);
+        padding: 25px;
+        overflow-y: auto;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        z-index: 1100;
+        color: #e6d9f7;
+        border-radius: 0 0 0 20px;
+    }
+    #cart-sidebar.open {
+        transform: translateX(0);
+    }
+    #cart-sidebar h2 {
+        margin-top: 0;
+        font-size: 24px;
+        border-bottom: 2px solid #b39ddb;
+        padding-bottom: 12px;
+        font-weight: 700;
+    }
+    #cart-items {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 20px 0;
+    }
+    #cart-items li {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #b39ddb;
+        padding-bottom: 8px;
+        font-size: 16px;
+    }
+    #cart-items li span {
+        flex-grow: 1;
+    }
+    #cart-total {
+        font-weight: 700;
+        font-size: 20px;
+        margin-bottom: 20px;
+        display: block;
+        text-align: right;
+    }
+    #close-cart-btn {
+        background-color: #b39ddb;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        border-radius: 10px;
+        color: #2c1a4a;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 18px;
+    }
+    #close-cart-btn:hover {
+        background-color: #d1c4e9;
+    }
+    /* Top bar cart button */
+    #cart-toggle-btn {
+        background-color: #b39ddb;
+        border: none;
+        color: #2c1a4a;
+        padding: 10px 18px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: background-color 0.3s ease;
+        font-size: 16px;
+    }
+    #cart-toggle-btn:hover {
+        background-color: #d1c4e9;
+    }
+    /* Footer */
+    footer {
+        background-color: #4a2c8c;
+        color: #e6d9f7;
+        text-align: center;
+        padding: 20px 30px;
+        margin-top: 50px;
+        border-top: 2px solid #b39ddb;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+</style>
+</head>
+<body>
+<header>
+    <h1>Каталог страйкбольного оборудования - Страница 2</h1>
+    <nav>
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="web.html">Каталог - Страница 1</a></li>
+            <li><a href="auth.html">Вход / Регистрация</a></li>
+        </ul>
+    </nav>
+    <button id="cart-toggle-btn" aria-label="Показать корзину">Корзина</button>
+    <button id="profile-btn" aria-label="Профиль" style="background-color:#b39ddb; border:none; padding:10px 18px; border-radius:10px; cursor:pointer; font-weight:700; font-size:16px; color:#2c1a4a; margin-left: 15px; transition: background-color 0.3s ease;" onclick="location.href='auth.html'">Профиль</button>
+</header>
+<main>
+    <aside aria-label="Фильтры товаров">
+        <h2>Фильтры</h2>
+        <label><input type="checkbox" name="type" value="автомат" /> Автомат</label>
+        <label><input type="checkbox" name="type" value="пистолет" /> Пистолет</label>
+        <label><input type="checkbox" name="type" value="винтовка" /> Винтовка</label>
+        <label><input type="checkbox" name="type" value="дробовик" /> Дробовик</label>
+    </aside>
+    <section class="products" aria-label="Список товаров">
+        <article class="product-card" data-id="16" data-name="Пистолет-пулемет" data-price="11000" data-type="автомат">
+            <img src="3-IS-3\web/Link/111.png" alt="Пистолет-пулемет" />
+            <h3>Пистолет-пулемет</h3>
+            <p>Компактный и мощный пистолет-пулемет для ближнего боя.</p>
+            <div class="price">11 000 ₽</div>
+            <button class="add-to-cart-btn">Добавить в корзину</button>
+        </article>
+        <article class="product-card" data-id="17" data-name="Револьвер" data-price="8000" data-type="пистолет">
+            <img src="/Link/112.png" alt="Револьвер" />
+            <h3>Револьвер</h3>
+            <p>Классический револьвер с надежным механизмом.</p>
+            <div class="price">8 000 ₽</div>
+            <button class="add-to-cart-btn">Добавить в корзину</button>
+        </article>
+        <article class="product-card" data-id="18" data-name="Дробовик Remington 870" data-price="13000" data-type="дробовик">
+            <img src="/Link/113.png" alt="Дробовик Remington 870" />
+            <h3>Дробовик Remington 870</h3>
+            <p>Мощный дробовик для ближнего боя и защиты.</p>
+            <div class="price">13 000 ₽</div>
+            <button class="add-to-cart-btn">Добавить в корзину</button>
+        </article>
+        <article class="product-card" data-id="19" data-name="Автоматический карабин" data-price="14000" data-type="автомат">
+            <img src="/Link/114.png" alt="Автоматический карабин" />
+            <h3>Автоматический карабин CYMA CM.028</h3>
+            <p>Универсальный автоматический карабин для различных задач.</p>
+            <div class="price">14 000 ₽</div>
+            <button class="add-to-cart-btn">Добавить в корзину</button>
+        </article>
+        <article class="product-card" data-id="20" data-name="Тактический пистолет" data-price="9000" data-type="пистолет">
+            <img src="/Link/115.png" alt="Тактический пистолет" />
+            <h3>Тактический пистолет KJW KP-06</h3>
+            <p>Компактный тактический пистолет с улучшенной эргономикой.</p>
+            <div class="price">9 000 ₽</div>
+            <button class="add-to-cart-btn">Добавить в корзину</button>
+        </article>
+        <article class="product-card" data-id="21" data-name="Снайперская винтовка с оптикой" data-price="16000" data-type="винтовка">
+            <img src="/Link/116.png" alt="Снайперская винтовка с оптикой" />
+            <h3>Снайперская винтовка с оптикой WELL MB03</h3>
+            <p>Высокоточная винтовка с прицелом для дальних дистанций.</p>
+            <div class="price">16 000 ₽</div>
+            <button class="add-to-cart-btn">Добавить в корзину</button>
+        </article>
+        <article class="product-card" data-id="22" data-name="Пистолет с глушителем" data-price="8500" data-type="пистолет">
+            <img src="/Link/117.png" alt="Пистолет с глушителем" />
+            <h3>Пистолет с глушителем KJW KP-07</h3>
+            <p>Тихий пистолет с глушителем для скрытных операций.</p>
+            <div class="price">8 500 ₽</div>
+            <button class="add-to-cart-btn">Добавить в корзину</button>
+        </article>
+        <article class="product-card" data-id="23" data-name="Автомат с прицелом" data-price="15000" data-type="автомат">
+            <img src="/Link/118.png" alt="Автомат с прицелом" />
+            <h3>Автомат с прицелом CYMA CM.028</h3>
+            <p>Автомат с улучшенным прицелом для точной стрельбы.</p>
+            <div class="price">15 000 ₽</div>
+            <button class="add-to-cart-btn">Добавить в корзину</button>
+        </article>
+        <article class="product-card" data-id="24" data-name="Пистолет-пулемет с лазером" data-price="12000" data-type="автомат">
+            <img src="/Link/119.png" alt="Пистолет-пулемет с лазером" />
+            <h3>Пистолет-пулемет с лазером CYMA CM.028</h3>
+            <p>Пистолет-пулемет с лазерным прицелом для быстрой реакции.</p>
+            <div class="price">12 000 ₽</div>
+            <button class="add-to-cart-btn">Добавить в корзину</button>
+        </article>
+    </section>
+</main>
+<aside id="cart-sidebar" aria-label="Корзина покупок">
+    <h2>Корзина</h2>
+    <ul id="cart-items"></ul>
+    <div id="cart-total">Итого: 0 ₽</div>
+    <button id="checkout-btn">Оплатить</button>
+    <button id="close-cart-btn">Закрыть корзину</button>
+</aside>
+<footer>
+    &copy; 2024 Продажа страйкбольного оружия
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
